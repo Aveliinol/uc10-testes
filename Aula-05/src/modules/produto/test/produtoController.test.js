@@ -1,5 +1,5 @@
-const Produto = require('../models/produtoModel');
-const ProdutoControler = require('../controllers/produtoController');
+const Produto = require('../models/produto.model');
+const ProdutoControler = require('../controllers/produto.controller');
 const { sequelize } = require('../../../config/configDB');
 
 beforeAll(async () => {
