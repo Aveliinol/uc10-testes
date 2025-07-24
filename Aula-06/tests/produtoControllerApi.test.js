@@ -75,10 +75,18 @@ describe('Testes de integração - Produto POST', ()=>{
 
 })
 
-describe('Testes de integração - Produto Listar', ()=>{
-    test('Deve retornar um Array vazio quando não tem produtos no banco', async ()=>{
+describe('Testes de integração - Produto Listar', () => {
+    test('Deve retornar um Array vazio quando não tem produtos no banco', async () => {
         const res = await request(app).get('/produtos')
-        expect(Array.isArray(res.body)).toBeFalsy();
+        expect(Array.isArray(res.body)).toBeTruthy();
         expect(res.body.length).toBe(0);
+    });
+    test('Deve retornar a lista dos produtos', async () => {
+        await request(app).post('/produtos').send({ nome: 'Feijão', preco: 10, estoque: 30 });
+        const res = await request(app).get('/produtos');
+        expect(Array.isArray(res.body)).toBeTruthy();
+        expect(res.body.length).toBeGreaterThan(0);
+        expect(res.body[0]).toHaveProperty('nome');
+        expect(res.body[0].nome).toBe('Feijão');
     });
 })
