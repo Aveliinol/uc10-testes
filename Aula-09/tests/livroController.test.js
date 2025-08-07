@@ -112,161 +112,161 @@ describe('Livro API', () => {
     });
   });
 
-//   describe('Validação contra SQL Injection', () => {
-//     test('❌ Não deve aceitar SQL injection no título', async () => {
-//       const response = await req(app).post('/livros').send({
-//         titulo: "Robert'); DROP TABLE livros;--",
-//         autor: 'Autor',
-//         ano_publicacao: 2020,
-//         genero: 'Drama',
-//         preco: 10
-//       });
+  describe('Validação contra SQL Injection', () => {
+    test('❌ Não deve aceitar SQL injection no título', async () => {
+      const response = await req(app).post('/livros').send({
+        titulo: "Robert'); DROP TABLE livros;--",
+        autor: 'Autor',
+        ano_publicacao: 2020,
+        genero: 'Drama',
+        preco: 10
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Título inválido');
-//     });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Título inválido');
+    });
 
-//     test('❌ Não deve aceitar SQL injection no autor', async () => {
-//       const response = await req(app).post('/livros').send({
-//         titulo: "Livro Normal",
-//         autor: "'); DELETE FROM livros WHERE 1=1;--",
-//         ano_publicacao: 2020,
-//         genero: 'Drama',
-//         preco: 10
-//       });
+    test('❌ Não deve aceitar SQL injection no autor', async () => {
+      const response = await req(app).post('/livros').send({
+        titulo: "Livro Normal",
+        autor: "'); DELETE FROM livros WHERE 1=1;--",
+        ano_publicacao: 2020,
+        genero: 'Drama',
+        preco: 10
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Autor inválido');
-//     });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Autor inválido');
+    });
 
-//     test('❌ Não deve aceitar SQL injection no gênero', async () => {
-//       const response = await req(app).post('/livros').send({
-//         titulo: "Livro Normal",
-//         autor: "Autor",
-//         ano_publicacao: 2020,
-//         genero: "Drama'); DROP TABLE livros;--",
-//         preco: 10
-//       });
+    test('❌ Não deve aceitar SQL injection no gênero', async () => {
+      const response = await req(app).post('/livros').send({
+        titulo: "Livro Normal",
+        autor: "Autor",
+        ano_publicacao: 2020,
+        genero: "Drama'); DROP TABLE livros;--",
+        preco: 10
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Gênero inválido');
-//     });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Gênero inválido');
+    });
 
-//     test('❌ Não deve aceitar SQL injection no ano_publicacao', async () => {
-//       const response = await req(app).post('/livros').send({
-//         titulo: "Livro Normal",
-//         autor: "Autor",
-//         ano_publicacao: "2020; DROP TABLE livros;",
-//         genero: "Drama",
-//         preco: 10
-//       });
+    test('❌ Não deve aceitar SQL injection no ano_publicacao', async () => {
+      const response = await req(app).post('/livros').send({
+        titulo: "Livro Normal",
+        autor: "Autor",
+        ano_publicacao: "2020; DROP TABLE livros;",
+        genero: "Drama",
+        preco: 10
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Ano de publicação deve ser um número');
-//     });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Ano de publicação deve ser um número');
+    });
 
-//     test('❌ Não deve aceitar SQL injection no preço', async () => {
-//       const response = await req(app).post('/livros').send({
-//         titulo: "Livro Normal",
-//         autor: "Autor",
-//         ano_publicacao: 2020,
-//         genero: "Drama",
-//         preco: "10; DROP TABLE livros;"
-//       });
+    test('❌ Não deve aceitar SQL injection no preço', async () => {
+      const response = await req(app).post('/livros').send({
+        titulo: "Livro Normal",
+        autor: "Autor",
+        ano_publicacao: 2020,
+        genero: "Drama",
+        preco: "10; DROP TABLE livros;"
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Preço deve ser um número');
-//     });
-//   });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Preço deve ser um número');
+    });
+  });
 
-//   describe('Listagem e Busca', () => {
-//     test('✅ Deve listar todos os livros', async () => {
-//       const response = await req(app).get('/livros');
-//       expect(response.statusCode).toBe(200);
-//       expect(Array.isArray(response.body)).toBe(true);
-//       expect(response.body.length).toBeGreaterThan(0);
-//     });
+  describe('Listagem e Busca', () => {
+    test('✅ Deve listar todos os livros', async () => {
+      const response = await req(app).get('/livros');
+      expect(response.statusCode).toBe(200);
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body.length).toBeGreaterThan(0);
+    });
 
-//     test('✅ Deve buscar livro por nome', async () => {
-//       const response = await req(app).get('/livros/busca?titulo=Senhor');
-//       expect(response.statusCode).toBe(200);
-//       expect(response.body[0].titulo).toMatch(/Senhor/);
-//       expect(response.body[0]).toHaveProperty('msg', 'Livro encontrado');
-//     });
+    test('✅ Deve buscar livro por nome', async () => {
+      const response = await req(app).get('/livros/busca?titulo=Senhor');
+      expect(response.statusCode).toBe(200);
+      expect(response.body[0].titulo).toMatch(/Senhor/);
+      expect(response.body[0]).toHaveProperty('msg', 'Livro encontrado');
+    });
 
-//     test('❌ Deve retornar 404 se livro não encontrado na busca por nome', async () => {
-//       const response = await req(app).get('/livros/busca?titulo=Inexistente');
-//       expect(response.statusCode).toBe(404);
-//       expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-//     });
+    test('❌ Deve retornar 404 se livro não encontrado na busca por nome', async () => {
+      const response = await req(app).get('/livros/busca?titulo=Inexistente');
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
 
-//     test('✅ Deve buscar livro por ID', async () => {
-//       const response = await req(app).get(`/livros/${livroId}`);
-//       expect(response.statusCode).toBe(200);
-//       expect(response.body.id).toBe(livroId);
-//       expect(response.body).toHaveProperty('msg', 'Livro encontrado');
-//     });
+    test('✅ Deve buscar livro por ID', async () => {
+      const response = await req(app).get(`/livros/1`);
+      expect(response.statusCode).toBe(200);
+      expect(response.body.id).toBe(livroId);
+      expect(response.body).toHaveProperty('msg', 'Livro encontrado');
+    });
 
-//     test('❌ Deve retornar 404 se ID inexistente', async () => {
-//       const response = await req(app).get('/livros/9999');
-//       expect(response.statusCode).toBe(404);
-//       expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-//     });
-//   });
+    test('❌ Deve retornar 404 se ID inexistente', async () => {
+      const response = await req(app).get('/livros/9999');
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
+  });
 
-//   describe('Atualização', () => {
-//     test('✅ Deve atualizar livro por ID', async () => {
-//       const response = await req(app).put(`/livros/${livroId}`).send({
-//         titulo: 'O Hobbit',
-//         autor: 'J.R.R. Tolkien',
-//         ano_publicacao: 1937,
-//         genero: 'Fantasia',
-//         preco: 39.9
-//       });
+  describe('Atualização', () => {
+    test('✅ Deve atualizar livro por ID', async () => {
+      const response = await req(app).put(`/livros/1`).send({
+        titulo: 'O Hobbit',
+        autor: 'J.R.R. Tolkien',
+        ano_publicacao: 1937,
+        genero: 'Fantasia',
+        preco: 39.9
+      });
 
-//       expect(response.statusCode).toBe(200);
-//       expect(response.body.titulo).toBe('O Hobbit');
-//       expect(response.body).toHaveProperty('msg', 'Livro atualizado com sucesso');
-//     });
+      expect(response.statusCode).toBe(200);
+      expect(response.body.titulo).toBe('O Hobbit');
+      expect(response.body).toHaveProperty('msg', 'Livro atualizado com sucesso');
+    });
 
-//     test('❌ Não deve atualizar livro com dados inválidos', async () => {
-//       const response = await req(app).put(`/livros/${livroId}`).send({
-//         titulo: '',
-//         autor: '',
-//         ano_publicacao: 'ano',
-//         genero: '',
-//         preco: 'caro'
-//       });
+    test('❌ Não deve atualizar livro com dados inválidos', async () => {
+      const response = await req(app).put(`/livros/1`).send({
+        titulo: '',
+        autor: '',
+        ano_publicacao: 'ano',
+        genero: '',
+        preco: 'caro'
+      });
 
-//       expect(response.statusCode).toBe(400);
-//       expect(response.body).toHaveProperty('msg', 'Dados inválidos para atualização');
-//     });
+      expect(response.statusCode).toBe(400);
+      expect(response.body).toHaveProperty('msg', 'Dados inválidos para atualização');
+    });
 
-//     test('❌ Deve retornar 404 ao tentar atualizar livro inexistente', async () => {
-//       const response = await req(app).put('/livros/9999').send({
-//         titulo: 'Teste',
-//         autor: 'Autor',
-//         ano_publicacao: 2000,
-//         genero: 'Drama',
-//         preco: 20.0
-//       });
+    test('❌ Deve retornar 404 ao tentar atualizar livro inexistente', async () => {
+      const response = await req(app).put('/livros/9999').send({
+        titulo: 'Teste',
+        autor: 'Autor',
+        ano_publicacao: 2000,
+        genero: 'Drama',
+        preco: 20.0
+      });
 
-//       expect(response.statusCode).toBe(404);
-//       expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-//     });
-//   });
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
+  });
 
-//   describe('Exclusão', () => {
-//     test('✅ Deve deletar livro por ID', async () => {
-//       const response = await req(app).delete(`/livros/${livroId}`);
-//       expect(response.statusCode).toBe(204);
-//       expect(response.body).toHaveProperty('msg', 'Livro deletado com sucesso');
-//     });
+  describe('Exclusão', () => {
+    test('✅ Deve deletar livro por ID', async () => {
+      const response = await req(app).delete(`/livros/1`);
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toHaveProperty('msg', 'Livro deletado com sucesso');
+    });
 
-//     test('❌ Deve retornar 404 ao tentar deletar livro inexistente', async () => {
-//       const response = await req(app).delete('/livros/9999');
-//       expect(response.statusCode).toBe(404);
-//       expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
-//     });
-//   });
+    test('❌ Deve retornar 404 ao tentar deletar livro inexistente', async () => {
+      const response = await req(app).delete('/livros/9999');
+      expect(response.statusCode).toBe(404);
+      expect(response.body).toHaveProperty('msg', 'Livro não encontrado');
+    });
+  });
 });
