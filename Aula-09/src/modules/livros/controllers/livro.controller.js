@@ -36,13 +36,13 @@ class LivroController {
         try {
             const { titulo, autor, ano_publicacao, genero, preco } = req.body;
 
-            if ( this.containsSQLInjection(titulo)) {
+            if ( !this.containsSQLInjection(titulo)) {
                 return res.status(400).json({msg: 'Título inválido'});
             }
-            if ( this.containsSQLInjection(autor)) {
+            if ( !this.containsSQLInjection(autor)) {
                 return res.status(400).json({msg: 'Autor inválido'});
             }
-            if ( this.containsSQLInjection(genero)) {
+            if ( !this.containsSQLInjection(genero)) {
                 return res.status(400).json({msg: 'Gênero inválido'});
             }
             if ( typeof ano_publicacao !== 'number') {
