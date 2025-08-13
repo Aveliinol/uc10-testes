@@ -1,4 +1,3 @@
-
 config:
   target: "http://localhost:3000"
   phases:
@@ -20,7 +19,23 @@ scenarios:
                 capture:
                   - json: "$.livro.id"
                     as: "livroId"
-          - think: 5
+          # - think: 5
           - get:
               url: "/livros/{{ livroId }}"
+              capture:
+                - json: "$.livro.titulo"
+                  as: "livroTitulo"
+          - put:
+              url: "/livros/{{ livroId }}"
+              json:
+                titulo: "Livro dia do estudante o retorno"
+                autor: "Joel Santos"
+                ano_publicacao: 2023
+                genero: "Terror"
+                preco: 250.85
+          - delete:
+              url: "/livros/{{ livroId }}"
+          - get:
+              url: "/livros/busca?titulo={{ livroTitulo }}"
+
         # count: 100
